@@ -106,10 +106,17 @@ else
 endif
 
 ifneq ($(SDK)$(CONFIG_PACKAGE_perl-rrd),)
+include ../../lang/perl/perlmod.mk
   CONFIGURE_ARGS += \
-	--enable-perl
+	--enable-perl \
+	--with-perl-options=" \
+		PERL_LIB=$(PERL_LIB) \
+		PERL_ARCHLIB=$(PERL_LIB) \
+		INSTALLSITELIB=$(PERL_SITELIB) \
+		INSTALLSITEARCH=$(PERL_SITELIB) \
+		DESTDIR=$(PKG_INSTALL_DIR)"
   CONFIGURE_VARS += \
-	PERL="$(PERL)"
+	PERL="$(PERL_CMD)"
 else
   CONFIGURE_ARGS += --disable-perl
 endif
