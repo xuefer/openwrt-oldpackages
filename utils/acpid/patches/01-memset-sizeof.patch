@@ -1,0 +1,11 @@
+--- a/libnetlink.c
++++ b/libnetlink.c
+@@ -42,7 +42,7 @@
+ 	int sndbuf = 32768;
+ 	int rcvbuf = 32768;
+ 
+-	memset(rth, 0, sizeof(rth));
++	memset(rth, 0, sizeof(*rth));
+ 
+ 	rth->fd = socket(AF_NETLINK, SOCK_RAW, protocol);
+ 	if (rth->fd < 0) {
