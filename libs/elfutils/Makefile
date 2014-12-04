@@ -41,10 +41,6 @@ define Package/libelf1
   TITLE+= (libelf)
 endef
 
-ifeq ($(CONFIG_BUILD_NLS),y)
-TARGET_LDFLAGS += "-lintl"
-endif
-
 ifdef CONFIG_USE_UCLIBC
 CONFIGURE_VARS += \
 	LIBS="-largp"
