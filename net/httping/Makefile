@@ -61,7 +61,7 @@ endef
 define Build/Configure
 endef
 
-TARGET_LDFLAGS += $(INTL_LDFLAGS) $(if $(INTL_FULL),-lintl)
+TARGET_LDFLAGS += $(INTL_LDFLAGS) $(INTL_LIBS)
 
 MAKE_FLAGS += \
 	DEBUG="no" \
