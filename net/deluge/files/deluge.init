@@ -46,7 +46,7 @@ start_instance() {
 	config_get home "$s" 'home'
 	[ -n "$home" ] || {
 		home=$(grep "^${user}:" /etc/passwd | cut -d ':' -f 6)
-	fi
+	}
 	[ -d "$home" ] || {
 		error "home directory '$home' for user '$uid' dos not exist"
 		return 1
