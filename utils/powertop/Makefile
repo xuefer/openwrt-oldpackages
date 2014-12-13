@@ -8,23 +8,26 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=powertop
-PKG_VERSION:=1.11
-PKG_RELEASE:=2
+PKG_VERSION:=2.7
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=http://www.lesswatts.org/projects/powertop/download/
-PKG_MD5SUM:=3498f5983c683c3a57dce7379a722082
+PKG_SOURCE_URL:=http://01.org/sites/default/files/downloads/powertop/
+PKG_MD5SUM:=e0d686e47daaf7e9d89031f7763432ef
 
 PKG_INSTALL:=1
 PKG_FIXUP:=autoreconf
+PKG_BUILD_PARALLEL:=1
+CONFIGURE_ARGS+=--disable-nls
 
+include $(INCLUDE_DIR)/uclibc++.mk
 include $(INCLUDE_DIR)/package.mk
 
 define Package/powertop
   SECTION:=utils
   CATEGORY:=Utilities
   TITLE:=PowerTOP
-  DEPENDS:=+libncurses
+  DEPENDS:=+libncurses +libnl $(CXX_DEPENDS)
   URL:=http://www.lesswatts.org
 endef
 

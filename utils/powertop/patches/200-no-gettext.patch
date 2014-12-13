@@ -1,48 +1,31 @@
---- a/powertop.c
-+++ b/powertop.c
-@@ -30,7 +30,9 @@
- #include <stdint.h>
- #include <sys/types.h>
+--- a/src/lib.cpp
++++ b/src/lib.cpp
+@@ -52,7 +52,6 @@
+ #include <sys/stat.h>
  #include <dirent.h>
-+#ifdef ENABLE_GETTEXT
- #include <libintl.h>
-+#endif
- #include <ctype.h>
- #include <assert.h>
  #include <locale.h>
-@@ -783,9 +785,11 @@ int main(int argc, char **argv)
- 	uint64_t cur_usage[8], cur_duration[8];
- 	double wakeups_per_second = 0;
+-#include <libintl.h>
+ #include <limits>
+ #include <math.h>
+ #include <ncurses.h>
+--- a/src/lib.h
++++ b/src/lib.h
+@@ -25,7 +25,6 @@
+ #ifndef INCLUDE_GUARD_LIB_H
+ #define INCLUDE_GUARD_LIB_H
  
-+#ifdef ENABLE_GETTEXT
- 	setlocale (LC_ALL, "");
- 	bindtextdomain ("powertop", "/usr/share/locale");
- 	textdomain ("powertop");
+-#include <libintl.h>
+ #include <stdint.h>
+ 
+ /* Include only for Automake builds */
+@@ -34,6 +33,10 @@
+ #endif
+ 
+ #ifdef ENABLE_NLS
++#include <libintl.h>
 +#endif
- 
-  	while (1) {
-  		static struct option opts[] = {
---- a/powertop.h
-+++ b/powertop.h
-@@ -26,7 +26,9 @@
- #ifndef __INCLUDE_GUARD_POWERTOP_H_
- #define __INCLUDE_GUARD_POWERTOP_H_
- 
-+#ifdef ENABLE_GETTEXT
- #include <libintl.h>
-+#endif
- 
- struct line {
- 	char	*string;
-@@ -86,7 +88,11 @@ extern suggestion_func *suggestion_activ
-         _x < _y ? _x : _y; })
- 
- 
-+#ifdef ENABLE_GETTEXT
++
++#ifdef ENABLE_NLS
  #define _(STRING)    gettext(STRING)
-+#else
-+#define _(STRING)    STRING
-+#endif
- 
- 
- #define PT_COLOR_DEFAULT    1
+ #else
+ #define _(STRING)    (STRING)
