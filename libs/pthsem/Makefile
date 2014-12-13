@@ -21,7 +21,7 @@ define Package/pthsem
   CATEGORY:=Libraries
   TITLE:=GNU pth extended with semaphore support
   URL:=http://www.auto.tuwien.ac.at/~mkoegler/index.php/pth
-  DEPENDS:=@USE_EGLIBC @TARGET_x86
+  DEPENDS:=@USE_EGLIBC @TARGET_x86||TARGET_x86_64
 endef
 
 define Package/pthsem/description

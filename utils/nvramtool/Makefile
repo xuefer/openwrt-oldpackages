@@ -24,7 +24,7 @@ define Package/nvramtool
   CATEGORY:=Utilities
   URL:=http://www.coreboot.org/Nvramtool
   TITLE:=Coreboot nvramtool
-  DEPENDS:=@TARGET_x86 +@PACKAGE_pciutils +zlib
+  DEPENDS:=@TARGET_x86||TARGET_x86_64 +@PACKAGE_pciutils +zlib
 endef
 
 define Package/nvramtool/description
