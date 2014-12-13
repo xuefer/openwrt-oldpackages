@@ -20,7 +20,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/lilo
   SECTION:=base
   CATEGORY:=Boot Loaders
-  DEPENDS:=@TARGET_x86
+  DEPENDS:=@TARGET_x86||TARGET_x86_64
   TITLE:=lilo
   URL:=ftp://metalab.unc.edu/pub/Linux/system/boot/lilo/
 endef
