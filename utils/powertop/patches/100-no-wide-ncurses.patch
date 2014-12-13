@@ -1,11 +1,13 @@
---- a/Makefile
-+++ b/Makefile
-@@ -20,7 +20,7 @@ OBJS = powertop.o config.o process.o mis
- 	
+--- a/configure.ac
++++ b/configure.ac
+@@ -91,8 +91,8 @@
+ 	strtoull \
+ ])
  
- powertop: $(OBJS) Makefile powertop.h
--	$(CC) ${CFLAGS}  $(OBJS) -lncursesw -o powertop
-+	$(CC)  ${LDFLAGS}  $(OBJS) -lncurses -o powertop
- 	@(cd po/ && $(MAKE))
- 
- powertop.1.gz: powertop.1
+-PKG_CHECK_MODULES([NCURSES], [ncursesw ncurses], [LIBS="$LIBS $ncurses_LIBS"], [
+-	AC_SEARCH_LIBS([delwin], [ncursesw ncurses], [], [
++PKG_CHECK_MODULES([NCURSES], [ncurses], [LIBS="$LIBS $ncurses_LIBS"], [
++	AC_SEARCH_LIBS([delwin], [ncurses], [], [
+ 		AC_MSG_ERROR([ncurses is required but was not found])
+ 	], [])
+ ])
