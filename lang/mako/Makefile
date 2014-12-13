@@ -15,7 +15,7 @@ PKG_SOURCE:=Mako-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=http://www.makotemplates.org/downloads/
 PKG_MD5SUM:=d8ca783630dc5e93970a2075532fa643
 
-PKG_BUILD_DEPENDS:=distribute/host
+PKG_BUILD_DEPENDS:=python-setuptools
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(subst .tar.gz,,$(PKG_SOURCE))
 
 include $(INCLUDE_DIR)/package.mk
