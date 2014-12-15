@@ -15,10 +15,11 @@ PKG_SOURCE_URL:=http://oss.oetiker.ch/rrdtool/pub/
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_MD5SUM:=19b24f7184a8dbf7b48c1bbb565ad9fb
 
-PKG_BUILD_DEPENDS:=python
+PKG_BUILD_DEPENDS:=python CONFIG_PACKAGE_perl-rrd:perl
 
 PKG_CONFIG_DEPENDS:= \
 	CONFIG_PACKAGE_python-rrd \
+	CONFIG_PACKAGE_perl-rrd \
 	CONFIG_PACKAGE_rrdcgi \
 
 PKG_FIXUP:=autoreconf
@@ -64,13 +65,21 @@ $(call Package/rrdtool/Default)
   DEPENDS+= +python-light +librrd
 endef
 
+define Package/perl-rrd
+$(call Package/rrdtool/Default)
+  SUBMENU:=Perl
+  SECTION:=lang
+  CATEGORY:=Languages
+  TITLE+= perl bindings (v1.2.x)
+  DEPENDS+= +perl +librrd
+endef
+
 CONFIGURE_ARGS += \
 	--enable-shared=yes \
 	--enable-static=yes \
 	--disable-rpath \
 	--with-gnu-ld \
 	--disable-mmap \
-	--disable-perl \
 	--disable-tcl \
 	--disable-ruby \
 	--without-x \
@@ -94,6 +103,22 @@ ifneq ($(SDK)$(CONFIG_PACKAGE_python-rrd),)
 	PYTHON="$(PYTHON)"
 else
   CONFIGURE_ARGS += --disable-python
+endif
+
+ifneq ($(SDK)$(CONFIG_PACKAGE_perl-rrd),)
+include ../../lang/perl/perlmod.mk
+  CONFIGURE_ARGS += \
+	--enable-perl \
+	--with-perl-options=" \
+		PERL_LIB=$(PERL_LIB) \
+		PERL_ARCHLIB=$(PERL_LIB) \
+		INSTALLSITELIB=$(PERL_SITELIB) \
+		INSTALLSITEARCH=$(PERL_SITELIB) \
+		DESTDIR=$(PKG_INSTALL_DIR)"
+  CONFIGURE_VARS += \
+	PERL="$(PERL_CMD)"
+else
+  CONFIGURE_ARGS += --disable-perl
 endif
 
 define Build/Compile
@@ -133,9 +158,15 @@ define PyPackage/python-rrd/install
 	$(CP) $(PKG_INSTALL_DIR)$(PYTHON_PKG_DIR)/* $(1)$(PYTHON_PKG_DIR)/
 endef
 
+define PyPackage/perl-rrd/install
+	$(INSTALL_DIR) $(1)$(PERL_PKG_DIR)
+	$(CP) $(PKG_INSTALL_DIR)$(PERL_PKG_DIR)/* $(1)$(PERL_PKG_DIR)/
+endef
+
 $(eval $(call BuildPackage,librrd))
 $(eval $(call BuildPackage,rrdcgi))
 $(eval $(call BuildPackage,rrdtool))
 
 #$(eval $(call PyPackage,python-rrd))
 #$(eval $(call BuildPackage,python-rrd))
+$(eval $(call BuildPackage,perl-rrd))
