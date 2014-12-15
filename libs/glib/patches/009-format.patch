@@ -1,0 +1,11 @@
+--- a/grel.c
++++ b/grel.c
+@@ -413,7 +413,7 @@
+     }
+   
+   g_string_append (gstring, "]");
+-  g_log (g_log_domain_glib, G_LOG_LEVEL_INFO, gstring->str);
++  g_log (g_log_domain_glib, G_LOG_LEVEL_INFO, "%s", gstring->str);
+   g_string_free (gstring, TRUE);
+ }
+ 
