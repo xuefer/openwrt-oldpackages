@@ -41,10 +41,13 @@ define Package/libelf1
   TITLE+= (libelf)
 endef
 
+LIBS:=$(INTL_LIBS)
+
 ifdef CONFIG_USE_UCLIBC
-CONFIGURE_VARS += \
-	LIBS="-largp"
+	LIBS+="-largp"
 endif
+
+CONFIGURE_VARS += LIBS="$(LIBS)"
 
 CONFIGURE_ARGS += \
 	--disable-werror \
