@@ -1,0 +1,40 @@
+--- /dev/null
++++ b/configure.in
+@@ -492,7 +492,7 @@
+ # Emulate behavior of src/Makefile.am
+ if test "x$GCC" = "xyes"
+ then
+-	CFLAGS="$CFLAGS -Wall -Werror"
++	CFLAGS="$CFLAGS -Wall"
+ fi
+ 
+ AC_CACHE_CHECK([for strtok_r],
+@@ -2696,7 +2696,7 @@
+ 	SAVE_LDFLAGS="$LDFLAGS"
+ 	# trigger an error if Perl_load_module*() uses __attribute__nonnull__(3)
+ 	# (see issues #41 and #42)
+-	CFLAGS="$CFLAGS $PERL_CFLAGS -Wall -Werror"
++	CFLAGS="$CFLAGS $PERL_CFLAGS -Wall"
+ 	LDFLAGS="$LDFLAGS $PERL_LDFLAGS"
+ 
+ 	AC_CACHE_CHECK([for broken Perl_load_module()],
+--- /dev/null
++++ b/configure.in
+@@ -492,7 +492,7 @@
+ # Emulate behavior of src/Makefile.am
+ if test "x$GCC" = "xyes"
+ then
+-	CFLAGS="$CFLAGS -Wall -Werror"
++	CFLAGS="$CFLAGS -Wall"
+ fi
+ 
+ AC_CACHE_CHECK([for strtok_r],
+@@ -2696,7 +2696,7 @@
+ 	SAVE_LDFLAGS="$LDFLAGS"
+ 	# trigger an error if Perl_load_module*() uses __attribute__nonnull__(3)
+ 	# (see issues #41 and #42)
+-	CFLAGS="$CFLAGS $PERL_CFLAGS -Wall -Werror"
++	CFLAGS="$CFLAGS $PERL_CFLAGS -Wall"
+ 	LDFLAGS="$LDFLAGS $PERL_LDFLAGS"
+ 
+ 	AC_CACHE_CHECK([for broken Perl_load_module()],
