@@ -243,6 +243,11 @@ define Build/InstallDev
 		$(CP) \
 			$(PKG_INSTALL_DIR)/lib/*.so* \
 			$(1)/usr/lib/; \
+		pushd $(1)/usr/lib/ >/dev/null; \
+		for f in *.so; do \
+			ln -s $$$$f $$$${f/.so/-mt.so}; \
+		done; \
+		popd >/dev/null; \
 	fi
 endef
 
