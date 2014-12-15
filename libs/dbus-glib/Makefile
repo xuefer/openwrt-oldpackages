@@ -46,7 +46,7 @@ CONFIGURE_VARS+= \
 	CPPFLAGS="$$$$CPPFLAGS -I$(ICONV_PREFIX)/include" \
 	CPPFLAGS="$$$$CPPFLAGS -I$(INTL_PREFIX)/include" \
 	LDFLAGS="$$$$LDFLAGS -L$(ICONV_PREFIX)/lib" \
-	LDFLAGS="$$$$LDFLAGS -L$(INTL_PREFIX)/lib" \
+	LDFLAGS="$$$$LDFLAGS -L$(INTL_PREFIX)/lib $(ICONV_LIBS)" \
 
 define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/include/dbus-1.0/dbus
