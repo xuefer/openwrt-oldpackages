@@ -8,14 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=deluge
-PKG_VERSION:=1.2.0
+PKG_VERSION:=1.3.11
 PKG_RELEASE:=3
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=http://download.deluge-torrent.org/source/
-PKG_MD5SUM:=cec6b48f0abd79ea2cff3815a1124192
-
-PKG_BUILD_DEPENDS:=distribute/host
+PKG_MD5SUM:=5e36ba0a4bc3714e7056efda19d20772
 
 include $(INCLUDE_DIR)/package.mk
 $(call include_mk, python-package.mk)
@@ -31,7 +29,7 @@ endef
 define Package/deluge
 $(call Package/deluge/Default)
   TITLE+= (console UI & daemon)
-  DEPENDS+=+python +rblibtorrent +python2-chardet +pyxdg +twisted +twisted-web +pyopenssl
+  DEPENDS+=+python +rblibtorrent +python2-chardet +pyxdg +twisted-core +twisted-web +pyopenssl +python-setuptools
 endef
 
 define Package/deluge-ui-gtk
@@ -55,19 +53,21 @@ define Package/deluge/conffiles
 endef
 
 define Build/Compile
-	$(call Build/Compile/PyMod,,install --prefix=/usr --root=$(PKG_INSTALL_DIR))
+	$(call Build/Compile/PyMod,,\
+		install --prefix="$(PKG_INSTALL_DIR)/usr" \
+		--old-and-unmanageable \
+	)
 
-	$(SED) 's,#!$(STAGING_DIR)/host/bin/$(PYTHON),#!/usr/bin/$(PYTHON),' $(PKG_INSTALL_DIR)/usr/bin/*
+	$(SED) 's,#!.*/host/bin/python.*,#!/usr/bin/$(PYTHON),' $(PKG_INSTALL_DIR)/usr/bin/*
 endef
 
-define Package/deluge/install
-	$(INSTALL_DIR) $(1)$(PYTHON_PKG_DIR)
-	$(CP) \
-	    $(PKG_INSTALL_DIR)$(PYTHON_PKG_DIR)/* \
-	    $(1)$(PYTHON_PKG_DIR)/
-	rm -rf $(1)$(PYTHON_PKG_DIR)/deluge/ui/gtkui
-	rm -rf $(1)$(PYTHON_PKG_DIR)/deluge/ui/web
+define PyPackage/deluge/filespec
++|$(PYTHON_PKG_DIR)
+-|$(PYTHON_PKG_DIR)/deluge/ui/gtkui
+-|$(PYTHON_PKG_DIR)/deluge/ui/web
+endef
 
+define PyPackage/deluge/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(CP) \
 	    $(PKG_INSTALL_DIR)/usr/bin/* \
@@ -80,32 +80,34 @@ define Package/deluge/install
 
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/deluge.init $(1)/etc/init.d/deluge
+	$(SED) 's#/usr/bin/python2.6#/usr/bin/$(PYTHON)#' $(1)/etc/init.d/deluge
 endef
 
-define Package/deluge-ui-gtk/install
-	$(INSTALL_DIR) $(1)$(PYTHON_PKG_DIR)/deluge/ui
-	$(CP) \
-	    $(PKG_INSTALL_DIR)$(PYTHON_PKG_DIR)/deluge/ui/gtkui \
-	    $(1)$(PYTHON_PKG_DIR)/deluge/ui/
+define PyPackage/deluge-ui-gtk/filespec
++|$(PYTHON_PKG_DIR)/deluge/ui/gtkui
+endef
 
+define PyPackage/deluge-ui-gtk/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(CP) \
 	    $(PKG_INSTALL_DIR)/usr/bin/deluge-gtk \
 	    $(1)/usr/bin/
 endef
 
-define Package/deluge-ui-web/install
-	$(INSTALL_DIR) $(1)$(PYTHON_PKG_DIR)/deluge/ui
-	$(CP) \
-	    $(PKG_INSTALL_DIR)$(PYTHON_PKG_DIR)/deluge/ui/web \
-	    $(1)$(PYTHON_PKG_DIR)/deluge/ui/
+define PyPackage/deluge-ui-web/filespec
++|$(PYTHON_PKG_DIR)/deluge/ui/web
+endef
 
+define PyPackage/deluge-ui-web/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(CP) \
 	    $(PKG_INSTALL_DIR)/usr/bin/deluge-web \
 	    $(1)/usr/bin/
 endef
 
+$(eval $(call PyPackage,deluge))
 $(eval $(call BuildPackage,deluge))
+$(eval $(call PyPackage,deluge-ui-gtk))
 $(eval $(call BuildPackage,deluge-ui-gtk))
+$(eval $(call PyPackage,deluge-ui-web))
 $(eval $(call BuildPackage,deluge-ui-web))
