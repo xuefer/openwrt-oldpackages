@@ -7,26 +7,31 @@
 # $Id: Makefile 9173 2007-10-07 03:20:26Z blogic $
 
 include $(TOPDIR)/rules.mk
+include $(INCLUDE_DIR)/uclibc++.mk
 
 PKG_NAME:=rblibtorrent
-PKG_VERSION:=0.14.7
+PKG_VERSION:=0.16.19
 PKG_RELEASE:=1
 
 PKG_SOURCE:=libtorrent-rasterbar-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=@SF/libtorrent
-PKG_MD5SUM:=6959f719245d82758235fd73d93373b2
+PKG_MD5SUM:=38ed42c14dbbc4fb299828b2cb7ec1fd
 PKG_BUILD_DIR:=$(BUILD_DIR)/libtorrent-rasterbar-$(PKG_VERSION)
-PKG_BUILD_DEPENDS:=libtool
+PKG_BUILD_PARALLEL:=1
+PKG_BUILD_DEPENDS:=libtool python
+PKG_FIXUP:=autoreconf
+
 BOOSTPOSTFIX=mt
 
 include $(INCLUDE_DIR)/package.mk
+$(call include_mk, python-package.mk)
 
 define Package/rblibtorrent
   SECTION:=libs
   CATEGORY:=Libraries
   TITLE:=Rasterbar BitTorrent library
   URL:=http://www.rasterbar.com/products/libtorrent/
-  DEPENDS:=+boost +boost-python +boost-filesystem +boost-regex +boost-thread +boost-program_options +boost-system +libopenssl @BROKEN
+  DEPENDS:=$(CXX_DEPENDS) +boost-python +boost-filesystem +boost-regex +boost-thread +boost-program_options +boost-system +libopenssl
 endef
 
 define Package/rblibtorrent/description
@@ -50,10 +55,6 @@ CONFIGURE_ARGS+= \
 	--with-boost-python=boost_python-$(BOOSTPOSTFIX) \
 	--with-boost-program_options=boost_program_options-$(BOOSTPOSTFIX)
 
-CONFIGURE_VARS+=CC="$(TARGET_CXX)"
-
-EXTRA_LDFLAGS+=-lz -lpthread
-
 define Build/Compile
 	$(call Build/Compile/Default)
 	$(call Build/Install/Default)
@@ -69,9 +70,9 @@ define Build/InstallDev
 endef
 
 define Package/rblibtorrent/install
-	$(INSTALL_DIR) $(1)/usr/lib $(1)/usr/lib/python2.6/site-packages/
+	$(INSTALL_DIR) $(1)/usr/lib $(1)/$(PYTHON_PKG_DIR)
 	$(CP) $(PKG_INSTALL_DIR)/usr/lib/*.so* $(1)/usr/lib/
-	$(CP) $(PKG_INSTALL_DIR)/usr/lib/python2.6/site-packages/*.so* $(1)/usr/lib/python2.6/site-packages/
+	$(CP) $(PKG_INSTALL_DIR)/$(PYTHON_PKG_DIR)/*.so* $(1)/$(PYTHON_PKG_DIR)
 endef
 
 $(eval $(call BuildPackage,rblibtorrent))
