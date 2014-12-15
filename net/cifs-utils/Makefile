@@ -22,6 +22,7 @@ define Package/cifsmount
   CATEGORY:=Network
   TITLE:=CIFS mount utilities
   URL:=http://wiki.samba.org/index.php/LinuxCIFS_utils
+  DEPENDS:=+USE_EGLIBC:librt
 endef
 
 TARGET_CFLAGS += -Wno-error
