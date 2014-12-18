@@ -1,0 +1,11 @@
+--- a/setup.py
++++ b/setup.py
+@@ -216,7 +216,7 @@
+ else:
+     build_libtorrent = False
+ 
+-if build_libtorrent:
++if False:
+     got_libtorrent = False
+     if not os.path.exists("libtorrent"):
+         import subprocess

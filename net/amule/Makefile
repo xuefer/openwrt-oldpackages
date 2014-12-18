@@ -16,6 +16,7 @@ PKG_SOURCE_URL:=@SF/amule
 PKG_MD5SUM:=31724290a440943f5b05d4dca413fe02
 
 PKG_BUILD_DEPENDS:=libgd
+PKG_FIXUP:=autoreconf
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/nls.mk
@@ -26,7 +27,7 @@ define Package/amule
   CATEGORY:=Network
   TITLE:=A multi-platform eMule-like ed2k client
   URL:=http://www.amule.org/
-  DEPENDS:=+libpng +libpthread +libncurses +libreadline +libwxbase +libcryptoxx
+  DEPENDS:=+libpng +libpthread +libncurses +libreadline +libwxbase +libcryptoxx $(ICONV_DEPENDS) $(INTL_DEPENDS)
 endef
 
 CONFIGURE_ARGS+= \

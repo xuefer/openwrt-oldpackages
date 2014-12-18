@@ -39,6 +39,11 @@ MAKE_FLAGS += \
 	INSTALLSUID="install -m 4755" \
 	DESTDIR="$(PKG_INSTALL_DIR)"
 
+define Package/libgssapi/install
+	$(INSTALL_DIR) $(1)/usr/lib
+	$(CP) $(PKG_INSTALL_DIR)/usr/lib/libgssapi.so* $(1)/usr/lib
+endef
+
 define Build/InstallDev
 	$(INSTALL_DIR) $(1)/usr/include/gssglue/gssapi
 	$(CP) $(PKG_INSTALL_DIR)/usr/include/gssglue/gssapi/gssapi.h $(1)/usr/include/gssglue/gssapi

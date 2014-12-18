@@ -6,6 +6,7 @@
 #
 
 include $(TOPDIR)/rules.mk
+include $(INCLUDE_DIR)/uclibc++.mk
 
 PKG_NAME:=urbi
 PKG_VERSION:=1.0RC2-l455
@@ -25,7 +26,7 @@ TARGET_CFLAGS += $(FPIC)
 define Package/urbi
   SECTION:=lang
   CATEGORY:=Languages
-  DEPENDS:=+uclibcxx +libpthread @BROKEN
+  DEPENDS:=$(CXX_DEPENDS) +libpthread @BROKEN
   TITLE:=URBI SDK
   URL:=http://www.urbiforge.com
 endef
@@ -35,7 +36,6 @@ define Package/urbi/description
 endef
 
 CONFIGURE_VARS += \
-	CXX="g++-uc" \
 	CXXFLAGS="$$$$CXXFLAGS -fno-rtti" \
 	EXAMPLES=0 \
 

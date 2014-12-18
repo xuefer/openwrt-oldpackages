@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=pyopenssl
-PKG_VERSION:=0.10
+PKG_VERSION:=0.13
 PKG_RELEASE:=1
 
 PKG_SOURCE:=pyOpenSSL-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=http://pypi.python.org/packages/source/p/pyOpenSSL/
-PKG_MD5SUM:=34db8056ec53ce80c7f5fc58bee9f093
+PKG_MD5SUM:=767bca18a71178ca353dff9e10941929
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/pyOpenSSL-$(PKG_VERSION)
 PKG_BUILD_DEPENDS:=python
@@ -34,15 +34,16 @@ define Package/pyopenssl/description
   Python interface to the OpenSSL library.
 endef
 
+define PyPackage/pyopenssl/filespec
++|/usr/lib/python$(PYTHON_VERSION)
+endef
+
 define Build/Compile
-	$(call Build/Compile/PyMod,,install --prefix="$(PKG_INSTALL_DIR)/usr")
+	$(if $(Build/Compile/PyMod),,@echo Python packaging code not found.; false)
+	$(call Build/Compile/PyMod,., \
+		install --prefix="$(PKG_INSTALL_DIR)/usr", \
+	)
 endef
 
-define Package/pyopenssl/install
-	$(INSTALL_DIR) $(1)$(PYTHON_PKG_DIR)
-	$(CP) \
-	    $(PKG_INSTALL_DIR)$(PYTHON_PKG_DIR)/* \
-	    $(1)$(PYTHON_PKG_DIR)
-endef
-
+$(eval $(call PyPackage,pyopenssl))
 $(eval $(call BuildPackage,pyopenssl))

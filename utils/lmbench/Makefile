@@ -15,8 +15,6 @@ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tgz
 PKG_SOURCE_URL:=@SF/lmbench/
 PKG_MD5SUM:=b3351a3294db66a72e2864a199d37cbf
 
-PKG_BUILD_DEPENDS:=librpc
-
 include $(INCLUDE_DIR)/package.mk
 
 define Package/lmbench
@@ -53,7 +51,7 @@ define Package/lmbench-$(subst _,-,$(1))
   CATEGORY:=Utilities
   TITLE:=$(1) microbenchmark
   URL:=http://sourceforge.net/projects/lmbench
-  DEPENDS:=lmbench +librpc
+  DEPENDS:=lmbench +USE_UCLIBC:librpc
 endef
 endef
 

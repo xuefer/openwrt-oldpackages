@@ -23,6 +23,7 @@ PKG_LICENSE_FILES:=COPYING docs/reference/COPYING glib/pcre/COPYING gmodule/COPY
 
 PKG_FIXUP:=autoreconf
 PKG_REMOVE_FILES:=aclocal.m4 acinclude.m4
+PKG_CHECK_FORMAT_SECURITY:=0
 
 PKG_INSTALL:=1
 
