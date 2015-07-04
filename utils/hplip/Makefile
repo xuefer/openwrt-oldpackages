@@ -15,6 +15,7 @@ PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=@SF/hplip
 PKG_MD5SUM:=2b0906b4a57b437988829557ca62adfd
 
+PKG_CONFIG_DEPENDS:=CONFIG_PACKAGE_hplip-sane
 PKG_BUILD_DEPENDS := python
 PKG_FIXUP:=autoreconf
 
@@ -25,10 +26,22 @@ define Package/hplip
   CATEGORY:=Utilities
   TITLE:=HP Linux Imaging and Printing
   URL:=http://sourceforge.net/projects/hplip/
-  DEPENDS+=+libjpeg +libtiff +libusb-compat +cups +sane-libs
+  DEPENDS+=+libjpeg +libtiff +libusb-compat +cups
 endef
 
 define Package/hplip/description
+	HPLIP is an HP developed solution for printing, scanning, and faxing with HP inkjet and laser based printers in Linux.
+endef
+
+define Package/hplip-sane
+  SECTION:=utils
+  CATEGORY:=Utilities
+  TITLE:=HP Linux Imaging and Printing - sane
+  URL:=http://sourceforge.net/projects/hplip/
+  DEPENDS+=+hplip +PACKAGE_hilip-sane:sane-libs
+endef
+
+define Package/hplip-sane/description
 	HPLIP is an HP developed solution for printing, scanning, and faxing with HP inkjet and laser based printers in Linux.
 endef
 
@@ -36,6 +49,7 @@ CONFIGURE_ARGS += \
 	--disable-gui-build \
 	--disable-network-build \
 	--disable-fax-build \
+	$(if $(CONFIG_PACKAGE_hiplp-sane),,--disable-scan-build) \
 	--disable-pp-build \
 	--disable-doc-build \
 	--disable-foomatic-xml-install \
@@ -57,9 +71,6 @@ define Package/hplip/install
 	$(INSTALL_DIR) $(1)/usr/lib/cups/backend
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/.libs/hp $(1)/usr/lib/cups/backend
 
-	$(INSTALL_DIR) $(1)/usr/lib/sane
-	$(CP) $(PKG_BUILD_DIR)/.libs/libsane-hpaio.so* $(1)/usr/lib/sane
-
 	$(INSTALL_DIR) $(1)/etc/hp
 	$(CP) $(PKG_BUILD_DIR)/hplip.conf $(1)/etc/hp/hplip.conf
 
@@ -68,13 +79,23 @@ define Package/hplip/install
 
 	$(INSTALL_DIR) $(1)/etc/hotplug.d/usb/
 	$(INSTALL_BIN) ./files/20-hplip $(1)/etc/hotplug.d/usb/
-
-	$(INSTALL_DIR) $(1)/etc/sane.d/dll.d/
-	$(INSTALL_DATA) ./files/hplib.conf $(1)/etc/sane.d/dll.d/hplib
 endef
 
 define Package/hplip/conffiles
 /etc/hp/hplip.conf
 endef
 
+define Package/hplip-sane/install
+	$(INSTALL_DIR) $(1)/usr/lib/sane
+	$(CP) $(PKG_BUILD_DIR)/.libs/libsane-hpaio.so* $(1)/usr/lib/sane
+
+	$(INSTALL_DIR) $(1)/etc/sane.d/dll.d/
+	$(INSTALL_DATA) ./files/hplib.conf $(1)/etc/sane.d/dll.d/hplib
+endef
+
+define Package/hplip-sane/conffiles
+/etc/sane.d/dll.d/hplib
+endef
+
 $(eval $(call BuildPackage,hplip))
+$(eval $(call BuildPackage,hplip-sane))
