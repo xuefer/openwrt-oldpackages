@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=hplip
-PKG_VERSION:=3.9.12
-PKG_RELEASE:=4
+PKG_VERSION:=3.15.6
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=@SF/hplip
-PKG_MD5SUM:=2b0906b4a57b437988829557ca62adfd
+PKG_MD5SUM:=fd0a9092c74f5d1e8cf01203365b5030
 
 PKG_CONFIG_DEPENDS:=CONFIG_PACKAGE_hplip-sane
 PKG_BUILD_DEPENDS := python
@@ -46,6 +46,7 @@ define Package/hplip-sane/description
 endef
 
 CONFIGURE_ARGS += \
+	--enable-libusb01_build \
 	--disable-gui-build \
 	--disable-network-build \
 	--disable-fax-build \

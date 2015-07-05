@@ -8,13 +8,14 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=cups
-PKG_VERSION:=1.5.4
+PKG_VERSION:=2.0.3
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-source.tar.bz2
 PKG_SOURCE_URL:= http://www.cups.org/software/$(PKG_VERSION)
-PKG_MD5SUM:=de3006e5cf1ee78a9c6145ce62c4e982
+PKG_MD5SUM:=8d98b85edbdab7ab03739c9622f570e8
 
+PKG_FIXUP:=autoreconf
 TARGET_LDFLAGS+=-Wl,-rpath-link=$(STAGING_DIR)/usr/lib
 
 include $(INCLUDE_DIR)/package.mk
