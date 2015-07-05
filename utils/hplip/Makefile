@@ -21,11 +21,15 @@ PKG_FIXUP:=autoreconf
 
 include $(INCLUDE_DIR)/package.mk
 
-define Package/hplip
+define Package/hplip/default
   SECTION:=utils
   CATEGORY:=Utilities
   TITLE:=HP Linux Imaging and Printing
   URL:=http://sourceforge.net/projects/hplip/
+endef
+
+define Package/hplip
+  $(call Package/hplip/default)
   DEPENDS+=+libjpeg +libtiff +libusb-compat +cups
 endef
 
@@ -34,14 +38,20 @@ define Package/hplip/description
 endef
 
 define Package/hplip-sane
-  SECTION:=utils
-  CATEGORY:=Utilities
-  TITLE:=HP Linux Imaging and Printing - sane
-  URL:=http://sourceforge.net/projects/hplip/
+  $(call Package/hplip/default)
   DEPENDS+=+hplip +PACKAGE_hilip-sane:sane-libs
 endef
 
 define Package/hplip-sane/description
+	HPLIP is an HP developed solution for printing, scanning, and faxing with HP inkjet and laser based printers in Linux.
+endef
+
+define Package/hplip-filter
+  $(call Package/hplip/default)
+  DEPENDS+=+hplip +libcupsimage
+endef
+
+define Package/hplip-filter/description
 	HPLIP is an HP developed solution for printing, scanning, and faxing with HP inkjet and laser based printers in Linux.
 endef
 
@@ -98,5 +108,11 @@ define Package/hplip-sane/conffiles
 /etc/sane.d/dll.d/hplib
 endef
 
+define Package/hplip-filter/install
+	$(INSTALL_DIR) $(1)/usr/lib/cups/filter
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/hpcups $(1)/usr/lib/cups/filter
+endef
+
 $(eval $(call BuildPackage,hplip))
 $(eval $(call BuildPackage,hplip-sane))
+$(eval $(call BuildPackage,hplip-filter))
