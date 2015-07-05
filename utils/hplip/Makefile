@@ -94,6 +94,7 @@ endef
 
 define Package/hplip/conffiles
 /etc/hp/hplip.conf
+/etc/hotplug.d/usb/20-hplip
 endef
 
 define Package/hplip-sane/install
