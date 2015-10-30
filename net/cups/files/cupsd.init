@@ -7,6 +7,7 @@ start() {
 	mkdir -m 0755 -p /var/cache/cups
 	mkdir -m 0755 -p /var/cups
 	mkdir -m 0755 -p /var/spool/cups/tmp
+	export CHARSET=utf-8.heavy
 	service_start /usr/sbin/cupsd
 }
 
