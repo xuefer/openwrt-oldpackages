@@ -54,10 +54,5 @@ define Build/InstallDev
 		$(1)$(PYTHON_PKG_DIR)
 endef
 
-define Package/twisted-core/install
-	$(INSTALL_DIR) $(1)/usr/bin
-	$(CP) $(PKG_INSTALL_DIR)/usr/bin/* $(1)/usr/bin/
-endef
-
 $(eval $(call PyPackage,twisted-core))
 $(eval $(call BuildPackage,twisted-core))

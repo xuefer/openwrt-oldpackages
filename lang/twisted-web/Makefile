@@ -46,10 +46,5 @@ define PyPackage/twisted-web/filespec
 +|/usr/lib/python$(PYTHON_VERSION)
 endef
 
-define Package/twisted-web/install
-	$(INSTALL_DIR) $(1)/usr/bin
-	$(CP) $(PKG_INSTALL_DIR)/usr/bin/* $(1)/usr/bin/
-endef
-
 $(eval $(call PyPackage,twisted-web))
 $(eval $(call BuildPackage,twisted-web))
