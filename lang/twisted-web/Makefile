@@ -38,7 +38,7 @@ endef
 
 define Build/Compile
 	$(call Build/Compile/PyMod,,\
-		install --prefix="$(PKG_INSTALL_DIR)/usr" \
+		install --root="$(PKG_INSTALL_DIR)" --prefix="/usr" \
 	)
 endef
 

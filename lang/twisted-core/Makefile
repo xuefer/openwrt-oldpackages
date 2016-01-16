@@ -19,6 +19,7 @@ PKG_SOURCE_URL:=http://twistedmatrix.com/Releases/$(PKG_Name)/$(PKG_VERSION_MIN)
 PKG_MD5SUM:=fa87d81bcd0909767b6bccb09b4320d0
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/Twisted$(PKG_Name)-$(PKG_VERSION)
+PKG_BUILD_DEPENDS:=zope-interface/host
 
 include $(INCLUDE_DIR)/package.mk
 $(call include_mk, python-package.mk)
@@ -38,7 +39,7 @@ endef
 
 define Build/Compile
 	$(call Build/Compile/PyMod,,\
-		install --prefix="$(PKG_INSTALL_DIR)/usr" \
+		install --root="$(PKG_INSTALL_DIR)" --prefix="/usr" \
 	)
 endef
 
