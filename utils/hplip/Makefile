@@ -16,10 +16,10 @@ PKG_SOURCE_URL:=@SF/hplip
 PKG_MD5SUM:=fd0a9092c74f5d1e8cf01203365b5030
 
 PKG_CONFIG_DEPENDS:=CONFIG_PACKAGE_hplip-sane
-PKG_BUILD_DEPENDS := python
 PKG_FIXUP:=autoreconf
 
 include $(INCLUDE_DIR)/package.mk
+$(call include_mk, python-package.mk)
 
 define Package/hplip/default
   SECTION:=utils
