@@ -16,6 +16,7 @@ PKG_SOURCE_URL:=@SF/hplip
 PKG_HASH:=f6e20cacb4891e4e60fc5de2213a10f8d0c68840f9b511aa38cfca0cb29f9b24
 
 PKG_CONFIG_DEPENDS:=CONFIG_PACKAGE_hplip-sane python
+PKG_BUILD_DEPENDS:=python python/host
 PKG_FIXUP:=autoreconf
 
 include $(INCLUDE_DIR)/package.mk
