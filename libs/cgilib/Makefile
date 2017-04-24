@@ -18,7 +18,7 @@ PKG_MD5SUM:=2c7053f58dfb06f7a80a112797ed7e86
 PKG_FIXUP:=autoreconf
 PKG_BUILD_DEPENDS:=libltdl
 
-LIBTOOL="$(STAGING_DIR)/host/bin/libtool"
+LIBTOOL="$(STAGING_DIR)/host/libltdl/bin/libtool"
 
 include $(INCLUDE_DIR)/package.mk
 
